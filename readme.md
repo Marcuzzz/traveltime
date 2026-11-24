@@ -75,7 +75,14 @@ Detection usually reports a transition within about a minute of it happening, so
 
 Requirements:
 
-- JDK 17
+- JDK 17. On macOS with Homebrew (`brew install openjdk@17`), put it on your `PATH`, e.g. in `~/.zshrc`:
+
+  ```bash
+  export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+  export PATH="$JAVA_HOME/bin:$PATH"
+  ```
+
+  Otherwise `java`/`keytool` fail with *"Unable to locate a Java Runtime"* (macOS's `/usr/bin` stubs only find JDKs registered with the system).
 - Android SDK with platform 36 (Android Studio installs this; otherwise set `sdk.dir` in `local.properties`)
 - Gradle wrapper is included (Gradle 8.14.2)
 
@@ -117,6 +124,8 @@ The workflow in [.github/workflows/build.yml](.github/workflows/build.yml) does 
 3. Fix the links in [deploy/index.html](deploy/index.html) if your repo isn't `Marcuzzz/traveltime`.
 
 4. **Release signing** (strongly recommended, so updates install over each other). Create a keystore once and keep it safe. If you lose it, users must uninstall to update.
+
+   `keytool` comes with the JDK (see [Build locally](#build-locally) if it says "Unable to locate a Java Runtime").
 
    ```bash
    mkdir -p keystore
